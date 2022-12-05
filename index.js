@@ -1,26 +1,18 @@
 const express = require('express');
-const {connect} = require('./utils/db')
+const router = require('./routes/movies.routes.js');
+const connect = require('./utils/db.js');
 
-//connect();
+connect();
 
 const PORT = 3000;
 const server = express();
 
-const Movie = require('./models/Movie');
+server.use('/movies',router);
 
-const router = express.Router();
 
-router.get('/movies', async (req, res) => {
-	try {
-		const movies = await Movie.find();
-		return res.status(200).json(movies)
-	} catch (err) {
-		return res.status(500).json(err);
-	}
-});
 
-server.use('/', router);
 
-server.listen(PORT, () => {
+server.listen(PORT,() =>{
+  console.log(`Servidor escuchando en el puerto ${PORT}`);  
   console.log(`Server running in http://localhost:${PORT}`);
 });
