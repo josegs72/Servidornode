@@ -70,6 +70,18 @@ router.post('/', async (req, res, next) => {
     }
 });
 
+router.put('/:id', async (req, res, next) => {
+	try {
+		const id = req.params.id;
+		const updatedMovie = await Movie.findByIdAndUpdate(id, req.body, { new: true });
+		return res.status(200).json(updatedMovie);
+	} catch (error) {
+		return next(error);
+	}	
+});
+
+
+
 router.delete('/:id', async (req, res, next) => {
     try {
         const id = req.params.id;
