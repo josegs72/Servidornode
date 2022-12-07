@@ -13,7 +13,7 @@ router.get('/' , async (req ,res,) => {
   }
 });
 
-router.get('/id/:id', async (req, res) => {
+router.get('/id/:id', async (req, res,next) => {
 	const id = req.params.id
 	try {
 		const movies = await Movie.findById(id);
@@ -29,8 +29,8 @@ router.get('/id/:id', async (req, res) => {
 
 
 
-router.get('/title/:title', async (req, res) => {
-	const {title} = req.params;
+router.get('/title/:title', async (req, res,next) => {
+	const title = req.params.title;
 
 	try {
 		const movieByTitle = await Movie.find({ title });
@@ -39,17 +39,17 @@ router.get('/title/:title', async (req, res) => {
 		return res.status(500).json(err);
 	}
 });
-router.get('/genre/:genre', async (req, res) => {
-	const {genre} = req.params;
+router.get('/genre/:genre', async (req, res,next) => {
+	const genre = req.params.genre;
 
 	try {
-		const movieByGenre = await Movie.find({ genre });
+		const movieByGenre = await Movie.find({genre});
 		return res.status(200).json(movieByGenre);
 	} catch (err) {
 		return res.status(500).json(err);
 	}
 });
-router.get('/year/:year', async (req, res) => {
+router.get('/year/:year', async (req, res,next) => {
 	const year = req.params.year;
 
 	try {
@@ -60,7 +60,28 @@ router.get('/year/:year', async (req, res) => {
 	}
 });
 
+router.post('/', async (req, res, next) => {
+    try {
+        const newMovie = new Movie({...req.body});
+        const createdMovie = await newMovie.save();
+        return res.status(201).json(createdMovie);
+    } catch (error) {
+        return next(error);
+    }
+});
+
+router.delete('/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        await Movie.findByIdAndDelete(id);
+        return res.status(200).json('el elemento ha sido eliminado');
+    } catch (error) {
+        return next(error);
+    }
+});
 
 
 
-module.exports = router
+
+
+module.exports = router;
