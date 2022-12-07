@@ -2,7 +2,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const Movie = require('../models/Movie.js')
 
-const DB_URL = "mongodb+srv://root:3QDkUIC8gXmTglw9@cluster0.nrbdipq.mongodb.net/?retryWrites=true&w=majority";
+const DB_URL = "mongodb+srv://root:1Lor8wFgXCUbCJlF@cluster0.1vr8feq.mongodb.net/?retryWrites=true&w=majority";
 
 
     mongoose.connect(DB_URL,{
