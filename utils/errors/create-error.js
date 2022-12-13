@@ -1,7 +1,7 @@
 const createError = (msg, status) => {
-    const error = new Error(msg);
-    error.status = status;
-    return error;
+    const err = new Error(msg);
+    err.status = status;
+    return err;
 };
 
 module.exports = createError;

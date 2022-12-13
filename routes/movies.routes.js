@@ -1,6 +1,9 @@
 const express = require("express");
 const Movie = require("../models/Movie.js");
 const createError = require("../utils/errors/create-error.js");
+const isAuthPassport = require("../utils/middlewares/auth-passport.middleware.js");
+const upload= require("../utils/middlewares/file.middleware.js");
+
 
 const router = express.Router();
 
@@ -13,7 +16,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/id/:id", async (req, res, next) => {
+router.get("/id/:id",[isAuthPassport], async (req, res, next) => {
   const id = req.params.id;
   try {
     const movies = await Movie.findById(id);
@@ -72,12 +75,10 @@ router.get("/year/:year", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/",[upload.single('picture')] ,async (req, res, next) => {
   try {
-    const newMovie = new Movie({ ...req.body });
-    if (!newMovie) {
-      next(createError("No se ha indicado el elemento a crear", 400));
-    }
+    const picture  = req.file ? req.file.filename : null;
+    const newMovie = new Movie({ ...req.body, picture });
     const createdMovie = await newMovie.save();
     return res.status(201).json(createdMovie);
   } catch (err) {
