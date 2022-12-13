@@ -77,3 +77,4 @@ server.listen(PORT,() =>{
   console.log(`Server running in http://localhost:${PORT}`);
 });
 
+module.exports = server;
