@@ -2,7 +2,7 @@ const passport = require("passport");
 const User = require("../../models/Users");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const createError = require("../errors/create-error.js");
+const createError = require("../errors/create-error");
 
 passport.use(
   "register",
@@ -22,7 +22,7 @@ passport.use(
         const encPassword = await bcrypt.hash(password, 10);
         const newUser = new User({
           email,
-          password: encPassword,
+          password: encPassword
         });
 
         const savedUser = await newUser.save();

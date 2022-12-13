@@ -1,8 +1,11 @@
 const express = require("express");
+const imageToUri = require("image-to-uri");
 const Movie = require("../models/Movie.js");
 const createError = require("../utils/errors/create-error.js");
 const isAuthPassport = require("../utils/middlewares/auth-passport.middleware.js");
 const upload= require("../utils/middlewares/file.middleware.js");
+const fs = require('fs');
+const uploadToCloudinary = require("../utils/middlewares/cloudinary.middleware.js");
 
 
 const router = express.Router();
@@ -79,6 +82,28 @@ router.post("/",[upload.single('picture')] ,async (req, res, next) => {
   try {
     const picture  = req.file ? req.file.filename : null;
     const newMovie = new Movie({ ...req.body, picture });
+    const createdMovie = await newMovie.save();
+    return res.status(201).json(createdMovie);
+  } catch (err) {
+    return next(err);
+  }
+});
+router.post("/with-uri",[upload.single('picture')] ,async (req, res, next) => {
+  try {
+    const filePath = req.file ? req.file.path: null;
+    const picture = imageToUri(filePath);
+    const newMovie = new Movie({ ...req.body, picture });
+    const createdMovie = await newMovie.save();
+    await fs. unlinkSync(filePath);
+    return res.status(201).json(createdMovie);
+  } catch (err) {
+    return next(err);
+  }
+});
+router.post("/to-cloud",[upload.single('picture'), uploadToCloudinary] ,async (req, res, next) => {
+  try {
+ 
+    const newMovie = new Movie({ ...req.body, picture: req.file_url });
     const createdMovie = await newMovie.save();
     return res.status(201).json(createdMovie);
   } catch (err) {

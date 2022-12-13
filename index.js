@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const router = require('./routes/movies.routes.js');
 const cinemasRouter = require('./routes/cinema.routes.js');
@@ -9,17 +11,25 @@ const userRouter = require('./routes/user.routes.js');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const path = require('path');
+const cloudinary = require('cloudinary');
 
 
 
-const DB_URL = "mongodb+srv://root:1Lor8wFgXCUbCJlF@cluster0.1vr8feq.mongodb.net/?retryWrites=true&w=majority";
 
+const DB_URL = process.env.DB_URL;
 
 connect();
 
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const server = express();
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.CLOUD_API_KEY , 
+  api_secret: process.env.CLOUD_SECRET,
+});
+
 
 server.use(cors());
 
@@ -31,16 +41,16 @@ server.use(express.static(path.join(__dirname,'public')));
 
 require('./utils/authentication/passport.js');
 server.use(session({
-  secret: 'hola_mundo',
+  secret: process.env.SESSION_SECRET_KEY,
   resave: false,
   saveUninitialized: false,
-  cookie:{
-    maxAge: 120000
+  cookie: {
+      maxAge: 120000 
   },
-  store : MongoStore.create({
-    mongoUrl: DB_URL,
+  store: MongoStore.create({
+      mongoUrl: DB_URL
   })
- })); 
+}));
 
 
 server.use(passport.initialize());
@@ -66,3 +76,4 @@ server.listen(PORT,() =>{
   console.log(`Servidor escuchando en el puerto ${PORT}`);  
   console.log(`Server running in http://localhost:${PORT}`);
 });
+
