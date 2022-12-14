@@ -56,6 +56,11 @@ server.use(session({
 server.use(passport.initialize());
 server.use(passport.session());
 
+server.get('/',(req,res) => {
+  res.json('Bienvenido a la API de Cine');
+});
+
+
 server.use('/user',userRouter);
 server.use('/movies',router);
 server.use('/cinemas', cinemasRouter);
