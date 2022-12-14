@@ -1,7 +1,9 @@
 const express = require("express");
 const passport = require("passport");
-
 const userRouter = express.Router();
+
+// Rutas de /api/users //
+// Ruta de crear /api/users //
 
 userRouter.post("/register", (req, res, next) => {
   const done = (err, user) => {
@@ -18,6 +20,8 @@ userRouter.post("/register", (req, res, next) => {
   };
   passport.authenticate("register", done)(req);
 });
+
+// Ruta de coger users con passport y logearse//
 userRouter.post("/login", (req, res, next) => {
     const done = (err, user) => {
       if (err) {
@@ -33,7 +37,7 @@ userRouter.post("/login", (req, res, next) => {
     };
     passport.authenticate("login", done)(req);
   });
-
+ // Ruta de coger users con passport  y deslogearse//
   userRouter.post('/logout',(req,res,next) => {
     if(req.user) {
      
@@ -47,6 +51,6 @@ userRouter.post("/login", (req, res, next) => {
         return res.status(304).json('Usuario no logueado en este momento');
     }
     });
-
+//modulo exportado//
 
 module.exports = userRouter;

@@ -5,3 +5,6 @@ const createError = (msg, status) => {
 };
 
 module.exports = createError;
+
+
+//Creamos el archivo de errores en utils\errors y lo exportamos para usarlo en el auth.routes.js //

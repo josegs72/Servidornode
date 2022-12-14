@@ -2,7 +2,11 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const Movie = require('../models/Movie.js')
 
-const DB_URL =  "mongodb+srv://root:1Lor8wFgXCUbCJlF@cluster0.1vr8feq.mongodb.net/?retryWrites=true&w=majority";
+const DB_URL =   process.env.DB_URL;
+
+// enlace con mongoDB y base de datos//
+
+
 
     mongoose.connect(DB_URL,{
         useNewUrlParser: true,

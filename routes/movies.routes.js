@@ -7,9 +7,9 @@ const upload= require("../utils/middlewares/file.middleware.js");
 const fs = require('fs');
 const uploadToCloudinary = require("../utils/middlewares/cloudinary.middleware.js");
 
-
+// Rutas de /api/movies //
 const router = express.Router();
-
+// Ruta de crear /api/movies //
 router.get("/", async (req, res, next) => {
   try {
     const movies = await Movie.find();
@@ -18,7 +18,7 @@ router.get("/", async (req, res, next) => {
     return next(err);
   }
 });
-
+// Ruta de coger movies con id y passport//
 router.get("/id/:id",[isAuthPassport], async (req, res, next) => {
   const id = req.params.id;
   try {
@@ -32,7 +32,7 @@ router.get("/id/:id",[isAuthPassport], async (req, res, next) => {
     return next(err);
   }
 });
-
+// Ruta de coger movies por titulo//
 router.get("/title/:title", async (req, res, next) => {
   const title = req.params.title;
 
@@ -47,7 +47,7 @@ router.get("/title/:title", async (req, res, next) => {
     return next(err);
   }
 });
-
+// Ruta de coger movies por genero//
 router.get("/genre/:genre", async (req, res, next) => {
   const genre = req.params.genre;
 
@@ -62,7 +62,7 @@ router.get("/genre/:genre", async (req, res, next) => {
     return next(err);
   }
 });
-
+// Ruta de coger movies por año//
 router.get("/year/:year", async (req, res, next) => {
   const year = req.params.year;
 
@@ -77,7 +77,7 @@ router.get("/year/:year", async (req, res, next) => {
     next(err);
   }
 });
-
+// Ruta de postear movies y un picture//
 router.post("/",[upload.single('picture')] ,async (req, res, next) => {
   try {
     const picture  = req.file ? req.file.filename : null;
@@ -88,6 +88,8 @@ router.post("/",[upload.single('picture')] ,async (req, res, next) => {
     return next(err);
   }
 });
+// Ruta de postear movies y un picture con image-to-uri//
+
 router.post("/with-uri",[upload.single('picture')] ,async (req, res, next) => {
   try {
     const filePath = req.file ? req.file.path: null;
@@ -100,6 +102,8 @@ router.post("/with-uri",[upload.single('picture')] ,async (req, res, next) => {
     return next(err);
   }
 });
+// Ruta de postear movies y un picture con cloudinary//
+
 router.post("/to-cloud",[upload.single('picture'), uploadToCloudinary] ,async (req, res, next) => {
   try {
  
@@ -110,6 +114,8 @@ router.post("/to-cloud",[upload.single('picture'), uploadToCloudinary] ,async (r
     return next(err);
   }
 });
+
+// Ruta de modificar movies con id //
 
 router.put("/:id", async (req, res, next) => {
   try {
@@ -127,6 +133,7 @@ router.put("/:id", async (req, res, next) => {
     return next(err);
   }
 });
+// Ruta de eliminar movies con id //
 
 router.delete("/:id", async (req, res, next) => {
   try {
@@ -137,5 +144,6 @@ router.delete("/:id", async (req, res, next) => {
     return next(err);
   }
 });
+//modulo exportado//
 
 module.exports = router;

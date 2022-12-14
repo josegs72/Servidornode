@@ -17,13 +17,13 @@ const cloudinary = require('cloudinary');
 
 
 const DB_URL = process.env.DB_URL;
+// enlace con mongoDB y base de datos//
 
 connect();
-
-
+// creamos el servidor//
 const PORT = process.env.PORT || 3000;
 const server = express();
-
+// configuramos el servidor//
 cloudinary.config({ 
   cloud_name: process.env.CLOUD_NAME, 
   api_key: process.env.CLOUD_API_KEY , 
@@ -38,7 +38,7 @@ server.use(express.urlencoded({extended:false}));
 
 server.use(express.static(path.join(__dirname,'public')));
 
-
+// creamos la sesión//
 require('./utils/authentication/passport.js');
 server.use(session({
   secret: process.env.SESSION_SECRET_KEY,
@@ -52,34 +52,34 @@ server.use(session({
   })
 }));
 
-
+// inicializamos passport y la sesión//
 server.use(passport.initialize());
 server.use(passport.session());
-
+// creamos las rutas//
 server.get('/',(req,res) => {
   res.json('Bienvenido a la API de Cine');
 });
 
-
+// creamos las rutas//
 server.use('/user',userRouter);
 server.use('/movies',router);
 server.use('/cinemas', cinemasRouter);
-
+// creamos el error 404//
 server.use('*',(req,res,next) => {
  next(createError('Not found',404));
 });
-
+// creamos el error 500//
 server.use((err,req,res,next) => {
   const status = err.status || 500;
   const message = err.message || 'Error';
   res.status(status).json({status,message});
   });
 
-   
+   // levantamos el servidor//
 
 server.listen(PORT,() =>{
   console.log(`Servidor escuchando en el puerto ${PORT}`);  
   console.log(`Server running in http://localhost:${PORT}`);
 });
-
+// exportamos el servidor//
 module.exports = server;

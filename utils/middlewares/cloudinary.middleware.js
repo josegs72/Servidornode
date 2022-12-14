@@ -1,6 +1,8 @@
 const cloudinary = require ("cloudinary");
 const fs = require ("fs");
 
+// Configuración de Cloudinary //
+
 const uploadToCloudinary = async (req, res, next) => {
     if (req.file) {
         const filePath = req.file.path;
@@ -14,5 +16,7 @@ const uploadToCloudinary = async (req, res, next) => {
         return next();
     }
 };
+
+// Exportamos la función para poder usarla en el resto de rutas //
 
 module.exports = uploadToCloudinary;

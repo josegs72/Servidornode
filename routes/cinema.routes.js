@@ -1,8 +1,10 @@
 const express = require('express');
 const cinemasRouter = express.Router();
 const createError = require('../utils/errors/create-error.js');
-
 const Cinema = require('../models/Cinema.js');
+
+// Rutas de  /api/cinemas //
+
 
 cinemasRouter.get('/', async (req, res, next) => {
 	try {
@@ -12,6 +14,10 @@ cinemasRouter.get('/', async (req, res, next) => {
 		return next(err)
 	}
 });
+
+// Ruta de crear /api/cinemas//
+
+
 
 cinemasRouter.post('/create', async (req, res, next) => {
     try{
@@ -32,6 +38,8 @@ cinemasRouter.post('/create', async (req, res, next) => {
     }
 });
 
+// Ruta de eliminar /api/cinemas/:id //
+
 cinemasRouter.delete('/:id', async (req, res, next) => {
     try{
         const{id} = req.params;
@@ -44,6 +52,8 @@ cinemasRouter.delete('/:id', async (req, res, next) => {
         return next(err)
     }
 });
+
+// Ruta de añadir película /api/cinemas/add-movie //
 
 cinemasRouter.put('/add-movie', async (req, res, next) => {
     try {
@@ -66,4 +76,5 @@ cinemasRouter.put('/add-movie', async (req, res, next) => {
     }
 });
 
+//modulo exportado//
 module.exports = cinemasRouter;

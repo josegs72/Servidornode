@@ -4,6 +4,7 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
 const createError = require("../errors/create-error");
 
+//Creamos la estrategia de registro  y la exportamos para usarla en el auth.routes.js //
 passport.use(
   "register",
   new LocalStrategy(
@@ -34,6 +35,8 @@ passport.use(
   )
 );
 
+//Creamos la estrategia de login y la exportamos para usarla en el auth.routes.js //
+
 passport.use(
   "login",
   new LocalStrategy(
@@ -63,6 +66,8 @@ passport.use(
     }
   )
 );
+
+//Serializamos y deserializamos el usuario para que no se pierda la sesión//
 
 passport.serializeUser((user, done) => {
   return done(null, user._id);

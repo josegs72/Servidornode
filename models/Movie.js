@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+// Creamos el esquema de la colección de Películas //
 const movieSchema = new mongoose.Schema(
     {
         title: { type: String, required: true },
@@ -12,6 +12,7 @@ const movieSchema = new mongoose.Schema(
         timestamps: true,
       }
 );
-
+// Creamos el modelo de la colección de Películas //
 const Movie = mongoose.model('Movie', movieSchema);
+    // Exportamos el modelo de la colección de Películas //
 module.exports = Movie;
